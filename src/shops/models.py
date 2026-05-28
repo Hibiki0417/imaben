@@ -30,6 +30,25 @@ class BentoShop(models.Model):
         default='enough'
     )
     today_menu = models.TextField('今日のメニュー', blank=True)
+    is_discount_active = models.BooleanField(
+        '値下げ中',
+        default=False
+    )
+    discount_text = models.CharField(
+        '値下げ内容',
+        max_length=100,
+        blank=True
+    )
+    discount_quantity = models.PositiveIntegerField(
+        '残り個数',
+        null=True,
+        blank=True
+    )
+    discount_end_time = models.TimeField(
+        '終了予定時刻',
+        null=True,
+        blank=True
+    )
     updated_at = models.DateTimeField('更新日時', auto_now=True)
     created_at = models.DateTimeField('作成日時', auto_now_add=True)
 

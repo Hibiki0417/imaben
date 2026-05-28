@@ -17,6 +17,21 @@
                     {{ shop.name }}
                 </a>
             </h3>
+            {% if shop.is_discount_active %}
+                <p style="font-weight: bold;">
+                    🔥 値下げ中
+                </p>
+                <p>値下げ内容：{{ shop.discount_text }}</p>
+
+                {% if shop.discount_quantity %}
+                    <p>残り：{{ shop.discount_quantity }}個</p>
+                {% endif %}
+
+                {% if shop.discount_end_time %}
+                    <p>終了予定：{{ shop.discount_end_time }}</p>
+                {% endif %}
+            {% endif %}
+
             <p>営業状況：{{ shop.get_business_status_display }}</p>
             <p>在庫状況：{{ shop.get_stock_status_display }}</p>
             <p>今日のメニュー：{{ shop.today_menu|linebreaksbr }}</p>

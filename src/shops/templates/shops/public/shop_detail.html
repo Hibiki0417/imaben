@@ -17,6 +17,23 @@
         <p>住所：{{ shop.address }}</p>
         <p>最終更新：{{ shop.updated_at }}</p>
     </div>
+    {% if shop.is_discount_active %}
+        <div style="border: 2px solid red; padding: 16px; margin-bottom: 16px;">
+            <h2>🔥 値下げ中</h2>
+
+            {% if shop.discount_text %}
+                <p>値下げ内容：{{ shop.discount_text }}</p>
+            {% endif %}
+
+            {% if shop.discount_quantity %}
+                <p>残り：{{ shop.discount_quantity }}個</p>
+            {% endif %}
+
+            {% if shop.discount_end_time %}
+                <p>終了予定：{{ shop.discount_end_time }}</p>
+            {% endif %}
+        </div>
+    {% endif %}
 
     <h2>今日のメニュー</h2>
 

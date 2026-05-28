@@ -38,7 +38,29 @@
             <label>今日のメニュー</label><br>
             {{ form.today_menu }}
         </div>
+                <hr>
 
+        <h3>値下げ告知</h3>
+
+        <div style="margin-bottom: 12px;">
+            <label>値下げ中</label><br>
+            {{ form.is_discount_active }}
+        </div>
+
+        <div style="margin-bottom: 12px;">
+            <label>値下げ内容</label><br>
+            {{ form.discount_text }}
+        </div>
+
+        <div style="margin-bottom: 12px;">
+            <label>残り個数</label><br>
+            {{ form.discount_quantity }}
+        </div>
+
+        <div style="margin-bottom: 12px;">
+            <label>終了予定時刻</label><br>
+            {{ form.discount_end_time }}
+        </div>
         <button type="submit">
             更新する
         </button>
