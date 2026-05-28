@@ -12,7 +12,11 @@
 
     {% for shop in shops %}
         <div style="border: 1px solid #ccc; padding: 16px; margin-bottom: 12px;">
-            <h3>{{ shop.name }}</h3>
+            <h3>
+                <a href="{% url 'shops:shop_detail' shop.pk %}">
+                    {{ shop.name }}
+                </a>
+            </h3>
             <p>営業状況：{{ shop.get_business_status_display }}</p>
             <p>在庫状況：{{ shop.get_stock_status_display }}</p>
             <p>今日のメニュー：{{ shop.today_menu|linebreaksbr }}</p>

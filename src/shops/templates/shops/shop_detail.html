@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ shop.name }} - いま弁</title>
+</head>
+<body>
+    <p>
+        <a href="{% url 'shops:shop_list' %}">← 弁当屋一覧へ戻る</a>
+    </p>
+
+    <h1>{{ shop.name }}</h1>
+
+    <div style="border: 1px solid #ccc; padding: 16px; margin-bottom: 16px;">
+        <p>営業状況：{{ shop.get_business_status_display }}</p>
+        <p>在庫状況：{{ shop.get_stock_status_display }}</p>
+        <p>住所：{{ shop.address }}</p>
+        <p>最終更新：{{ shop.updated_at }}</p>
+    </div>
+
+    <h2>今日のメニュー</h2>
+
+    {% if shop.today_menu %}
+        <p>{{ shop.today_menu|linebreaksbr }}</p>
+    {% else %}
+        <p>今日のメニューはまだ登録されていません。</p>
+    {% endif %}
+
+    <h2>店舗説明</h2>
+
+    {% if shop.description %}
+        <p>{{ shop.description|linebreaksbr }}</p>
+    {% else %}
+        <p>店舗説明はまだ登録されていません。</p>
+    {% endif %}
+</body>
+</html>
