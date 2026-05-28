@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>店舗ダッシュボード - いま弁</title>
+</head>
+<body>
+    <h1>店舗ダッシュボード</h1>
+
+    <p>ログイン中：{{ request.user.username }}</p>
+
+    <div style="border: 1px solid #ccc; padding: 16px; margin-bottom: 16px;">
+        <h2>{{ shop.name }}</h2>
+
+        <p>営業状況：{{ shop.get_business_status_display }}</p>
+        <p>在庫状況：{{ shop.get_stock_status_display }}</p>
+        <p>今日のメニュー：{{ shop.today_menu|linebreaksbr }}</p>
+        <p>住所：{{ shop.address }}</p>
+        <p>最終更新：{{ shop.updated_at }}</p>
+    </div>
+
+    <p>
+        ここに後で、営業状況・在庫状況・今日のメニュー更新フォームを作ります。
+    </p>
+
+    <p>
+        <a href="{% url 'shops:shop_list' %}">ユーザー側一覧を見る</a>
+    </p>
+</body>
+</html>
