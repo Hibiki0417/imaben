@@ -1,3 +1,12 @@
 from django.shortcuts import render
+from .models import BentoShop
 
-# Create your views here.
+
+def shop_list(request):
+    shops = BentoShop.objects.all().order_by('-updated_at')
+
+    context = {
+        'shops': shops,
+    }
+
+    return render(request, 'shops/shop_list.html', context)

@@ -18,3 +18,5 @@ class BentoShopAdmin(admin.ModelAdmin):
         'name',
         'address',
     )
+
+    

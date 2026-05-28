@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>いま弁 - 弁当屋一覧</title>
+</head>
+<body>
+    <h1>いま弁</h1>
+    <p>今開いている沖縄の弁当屋を確認できます。</p>
+
+    <h2>弁当屋一覧</h2>
+
+    {% for shop in shops %}
+        <div style="border: 1px solid #ccc; padding: 16px; margin-bottom: 12px;">
+            <h3>{{ shop.name }}</h3>
+            <p>営業状況：{{ shop.get_business_status_display }}</p>
+            <p>在庫状況：{{ shop.get_stock_status_display }}</p>
+            <p>今日のメニュー：{{ shop.today_menu|linebreaksbr }}</p>
+            <p>住所：{{ shop.address }}</p>
+            <p>最終更新：{{ shop.updated_at }}</p>
+        </div>
+    {% empty %}
+        <p>現在、登録されている弁当屋はありません。</p>
+    {% endfor %}
+</body>
+</html>
