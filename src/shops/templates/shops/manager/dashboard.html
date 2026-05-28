@@ -12,18 +12,39 @@
     <div style="border: 1px solid #ccc; padding: 16px; margin-bottom: 16px;">
         <h2>{{ shop.name }}</h2>
 
-        <p>営業状況：{{ shop.get_business_status_display }}</p>
-        <p>在庫状況：{{ shop.get_stock_status_display }}</p>
-        <p>今日のメニュー：{{ shop.today_menu|linebreaksbr }}</p>
+        <p>現在の営業状況：{{ shop.get_business_status_display }}</p>
+        <p>現在の在庫状況：{{ shop.get_stock_status_display }}</p>
+        <p>現在の今日のメニュー：{{ shop.today_menu|linebreaksbr }}</p>
         <p>住所：{{ shop.address }}</p>
         <p>最終更新：{{ shop.updated_at }}</p>
     </div>
 
-    <p>
-        ここに後で、営業状況・在庫状況・今日のメニュー更新フォームを作ります。
-    </p>
+    <h2>店舗情報を更新</h2>
 
-    <p>
+    <form method="post">
+        {% csrf_token %}
+
+        <div style="margin-bottom: 12px;">
+            <label>営業状況</label><br>
+            {{ form.business_status }}
+        </div>
+
+        <div style="margin-bottom: 12px;">
+            <label>在庫状況</label><br>
+            {{ form.stock_status }}
+        </div>
+
+        <div style="margin-bottom: 12px;">
+            <label>今日のメニュー</label><br>
+            {{ form.today_menu }}
+        </div>
+
+        <button type="submit">
+            更新する
+        </button>
+    </form>
+
+    <p style="margin-top: 24px;">
         <a href="{% url 'shops:shop_list' %}">ユーザー側一覧を見る</a>
     </p>
 </body>

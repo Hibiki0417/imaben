@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from .models import BentoShop, ShopStaff
-
+from .forms import BentoShopStatusForm
 
 def shop_list(request):
     shops = BentoShop.objects.all().order_by('-updated_at')
@@ -31,8 +31,17 @@ def manager_dashboard(request):
 
     shop = shop_staff.shop
 
+    if request.method == 'POST':
+        form = BentoShopStatusForm(request.POST, instance=shop)
+        if form.is_valid():
+            form.save()
+            return redirect('shops:manager_dashboard')
+    else:
+        form = BentoShopStatusForm(instance=shop)
+
     context = {
         'shop': shop,
+        'form': form,
     }
 
     return render(request, 'shops/manager/dashboard.html', context)
