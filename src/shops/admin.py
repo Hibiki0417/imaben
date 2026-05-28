@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import BentoShop
+from .models import BentoShop, ShopStaff
 
 
 @admin.register(BentoShop)
@@ -19,4 +19,20 @@ class BentoShopAdmin(admin.ModelAdmin):
         'address',
     )
 
+@admin.register(ShopStaff)
+class ShopStaffAdmin(admin.ModelAdmin):
+    list_display = (
+        'user',
+        'shop',
+        'role',
+        'created_at',
+    )
+    list_filter = (
+        'role',
+        'shop',
+    )
+    search_fields = (
+        'user__username',
+        'shop__name',
+    )
     
