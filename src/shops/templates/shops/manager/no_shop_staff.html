@@ -1,18 +1,28 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
     <title>店舗情報がありません - いま弁</title>
+    <link rel="stylesheet" href="{% static 'shops/css/manager.css' %}">
 </head>
 <body>
-    <h1>店舗情報が見つかりません</h1>
+    <div class="page">
+        <div class="form-section">
+            <h1>店舗情報が見つかりません</h1>
 
-    <p>
-        このアカウントには、編集できる店舗がまだ紐づいていません。
-    </p>
+            <p>
+                このアカウントには、編集できる店舗がまだ紐づいていません。
+            </p>
 
-    <p>
-        運営側で店舗スタッフ情報を登録してください。
-    </p>
+            <p>
+                運営側で店舗スタッフ情報を登録してください。
+            </p>
+
+            <p>
+                <a class="link" href="{% url 'shops:shop_list' %}">ユーザー側一覧へ戻る</a>
+            </p>
+        </div>
+    </div>
 </body>
 </html>
