@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone 
 
 class BentoShop(models.Model):
     BUSINESS_STATUS_CHOICES = [
@@ -51,6 +52,18 @@ class BentoShop(models.Model):
     )
     updated_at = models.DateTimeField('更新日時', auto_now=True)
     created_at = models.DateTimeField('作成日時', auto_now_add=True)
+
+    @property
+    def is_discount_display_active(self):
+        if not self.is_discount_active:
+            return False
+
+        if not self.discount_end_time:
+            return True
+
+        now_time = timezone.localtime().time()
+
+        return self.discount_end_time > now_time
 
     def __str__(self):
         return self.name

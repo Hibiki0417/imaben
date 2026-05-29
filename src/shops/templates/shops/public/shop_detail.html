@@ -17,7 +17,7 @@
         <p>住所：{{ shop.address }}</p>
         <p>最終更新：{{ shop.updated_at }}</p>
     </div>
-    {% if shop.is_discount_active %}
+    {% if shop.is_discount_display_active %}
         <div style="border: 2px solid red; padding: 16px; margin-bottom: 16px;">
             <h2>🔥 値下げ中</h2>
 
