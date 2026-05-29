@@ -6,9 +6,11 @@ body {
 }
 
 .page {
+   width: 100%;
     max-width: 720px;
     margin: 0 auto;
-    padding: 16px;
+    padding: 12px;
+    box-sizing: border-box;
 }
 
 .header {
@@ -142,4 +144,22 @@ button {
 
 .quick-button-soldout {
     background-color: #dc2626;
+}
+
+@media (max-width: 600px) {
+    .page {
+        max-width: none;
+        padding: 12px;
+    }
+
+    .shop-card,
+    .form-section {
+        border-radius: 10px;
+        padding: 14px;
+        margin-bottom: 12px;
+    }
+
+    .header-title {
+        font-size: 22px;
+    }
 }
