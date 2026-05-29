@@ -3,6 +3,9 @@ from django.contrib.auth.decorators import login_required
 from .models import BentoShop, ShopStaff
 from .forms import BentoShopStatusForm
 
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
+
 def shop_list(request):
     shops = BentoShop.objects.all().order_by('-updated_at')
 
@@ -72,5 +75,17 @@ def update_quick_status(request):
             if status_value in valid_values:
                 shop.stock_status = status_value
                 shop.save()
-
+        channel_layer = get_channel_layer()
+        async_to_sync(channel_layer.group_send)(
+            'shop_status',
+            {
+                'type': 'shop_status_update',
+                'shop_id': shop.id,
+                'business_status': shop.business_status,
+                'business_status_display': shop.get_business_status_display(),
+                'stock_status': shop.stock_status,
+                'stock_status_display': shop.get_stock_status_display(),
+            }
+        )
+        
         return redirect('shops:manager_dashboard')   

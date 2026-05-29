@@ -6,6 +6,7 @@
     <title>いま弁 - 弁当屋一覧</title>
     <link rel="stylesheet" href="{% static 'shops/css/public.css' %}">
 </head>
+
 <body>
     <div class="page">
         <div class="header">
@@ -16,18 +17,18 @@
         <h2>弁当屋一覧</h2>
 
         {% for shop in shops %}
-            <div class="shop-card">
+            <div class="shop-card" data-shop-id="{{ shop.id }}">
                 <h3 class="shop-name">
                     <a href="{% url 'shops:shop_detail' shop.pk %}">
                         {{ shop.name }}
                     </a>
                 </h3>
                 <div class="badge-row">
-                    <span class="status-badge badge-{{ shop.business_status }}">
+                    <span class="status-badge badge-{{ shop.business_status }}" data-business-badge>
                         {{ shop.get_business_status_display }}
                     </span>
 
-                    <span class="status-badge badge-{{ shop.stock_status }}">
+                    <span class="status-badge badge-{{ shop.stock_status }}" data-stock-badge>
                         {{ shop.get_stock_status_display }}
                     </span>
                 </div>
@@ -57,6 +58,55 @@
             <p>現在、登録されている弁当屋はありません。</p>
         {% endfor %}
     </div>
+    <script>
+        function connectShopStatusSocket() {
+            const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
+            const socket = new WebSocket(
+                `${protocol}://${window.location.host}/ws/shops/`
+            );
+
+            socket.onopen = function () {
+            };
+
+            
+            socket.onmessage = function (event) {
+                const data = JSON.parse(event.data);
+
+                const shopCard = document.querySelector(
+                    `[data-shop-id="${data.shop_id}"]`
+                );
+
+                if (!shopCard) {
+                    return;
+                }
+
+                const businessBadge = shopCard.querySelector('[data-business-badge]');
+                const stockBadge = shopCard.querySelector('[data-stock-badge]');
+
+                if (businessBadge) {
+                    businessBadge.textContent = data.business_status_display;
+                    businessBadge.className = `status-badge badge-${data.business_status}`;
+                }
+
+                if (stockBadge) {
+                    stockBadge.textContent = data.stock_status_display;
+                    stockBadge.className = `status-badge badge-${data.stock_status}`;
+                }
+            };
+
+            socket.onerror = function (error) {
+                console.error('WebSocket error:', error);
+            };
+
+            socket.onclose = function () {
+                setTimeout(function () {
+                    connectShopStatusSocket();
+                }, 3000);
+            };
+        }
+
+        connectShopStatusSocket();
+    </script>
 </body>
 
 </html>
