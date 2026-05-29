@@ -75,6 +75,11 @@
         <p>
             <a class="link" href="{% url 'shops:shop_list' %}">ユーザー側一覧を見る</a>
         </p>
+        
+        <form method="post" action="{% url 'manager_logout' %}" style="margin-top: 16px;">
+            {% csrf_token %}
+            <button type="submit">ログアウト</button>
+        </form>
     </div>
 </body>
 </html>
