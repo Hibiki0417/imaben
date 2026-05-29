@@ -22,6 +22,15 @@
                         {{ shop.name }}
                     </a>
                 </h3>
+                <div class="badge-row">
+                    <span class="status-badge badge-{{ shop.business_status }}">
+                        {{ shop.get_business_status_display }}
+                    </span>
+
+                    <span class="status-badge badge-{{ shop.stock_status }}">
+                        {{ shop.get_stock_status_display }}
+                    </span>
+                </div>
 
                 {% if shop.is_discount_display_active %}
                     <div class="discount-box">
@@ -40,9 +49,6 @@
                         {% endif %}
                     </div>
                 {% endif %}
-
-                <p class="status-row">営業状況：{{ shop.get_business_status_display }}</p>
-                <p class="status-row">在庫状況：{{ shop.get_stock_status_display }}</p>
                 <p class="status-row">今日のメニュー：{{ shop.today_menu|linebreaksbr }}</p>
                 <p class="status-row">住所：{{ shop.address }}</p>
                 <p class="status-row">最終更新：{{ shop.updated_at }}</p>

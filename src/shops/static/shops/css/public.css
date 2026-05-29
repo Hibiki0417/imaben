@@ -89,3 +89,43 @@ body {
         font-size: 22px;
     }
 }
+
+.badge-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin: 10px 0;
+}
+
+.status-badge {
+    display: inline-block;
+    border-radius: 999px;
+    padding: 6px 12px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff;
+}
+
+.badge-open {
+    background-color: #1f9d55;
+}
+
+.badge-preparing {
+    background-color: #f59e0b;
+}
+
+.badge-closed {
+    background-color: #6b7280;
+}
+
+.badge-enough {
+    background-color: #2563eb;
+}
+
+.badge-low {
+    background-color: #f97316;
+}
+
+.badge-sold_out {
+    background-color: #dc2626;
+}
