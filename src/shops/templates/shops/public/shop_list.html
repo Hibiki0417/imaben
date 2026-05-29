@@ -1,45 +1,56 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
     <title>いま弁 - 弁当屋一覧</title>
+    <link rel="stylesheet" href="{% static 'shops/css/style.css' %}">
 </head>
 <body>
-    <h1>いま弁</h1>
-    <p>今開いている沖縄の弁当屋を確認できます。</p>
-
-    <h2>弁当屋一覧</h2>
-
-    {% for shop in shops %}
-        <div style="border: 1px solid #ccc; padding: 16px; margin-bottom: 12px;">
-            <h3>
-                <a href="{% url 'shops:shop_detail' shop.pk %}">
-                    {{ shop.name }}
-                </a>
-            </h3>
-            {% if shop.is_discount_display_active %}
-                <p style="font-weight: bold;">
-                    🔥 値下げ中
-                </p>
-                <p>値下げ内容：{{ shop.discount_text }}</p>
-
-                {% if shop.discount_quantity %}
-                    <p>残り：{{ shop.discount_quantity }}個</p>
-                {% endif %}
-
-                {% if shop.discount_end_time %}
-                    <p>終了予定：{{ shop.discount_end_time }}</p>
-                {% endif %}
-            {% endif %}
-
-            <p>営業状況：{{ shop.get_business_status_display }}</p>
-            <p>在庫状況：{{ shop.get_stock_status_display }}</p>
-            <p>今日のメニュー：{{ shop.today_menu|linebreaksbr }}</p>
-            <p>住所：{{ shop.address }}</p>
-            <p>最終更新：{{ shop.updated_at }}</p>
+    <div class="page">
+        <div class="header">
+            <div class="header-title">いま弁</div>
+            <p class="header-text">今開いている沖縄の弁当屋を確認できます。</p>
         </div>
-    {% empty %}
-        <p>現在、登録されている弁当屋はありません。</p>
-    {% endfor %}
+
+        <h2>弁当屋一覧</h2>
+
+        {% for shop in shops %}
+            <div class="shop-card">
+                <h3 class="shop-name">
+                    <a href="{% url 'shops:shop_detail' shop.pk %}">
+                        {{ shop.name }}
+                    </a>
+                </h3>
+
+                {% if shop.is_discount_display_active %}
+                    <div class="discount-box">
+                        <div class="discount-title">🔥 値下げ中</div>
+
+                        {% if shop.discount_text %}
+                            <p>値下げ内容：{{ shop.discount_text }}</p>
+                        {% endif %}
+
+                        {% if shop.discount_quantity %}
+                            <p>残り：{{ shop.discount_quantity }}個</p>
+                        {% endif %}
+
+                        {% if shop.discount_end_time %}
+                            <p>終了予定：{{ shop.discount_end_time }}</p>
+                        {% endif %}
+                    </div>
+                {% endif %}
+
+                <p class="status-row">営業状況：{{ shop.get_business_status_display }}</p>
+                <p class="status-row">在庫状況：{{ shop.get_stock_status_display }}</p>
+                <p class="status-row">今日のメニュー：{{ shop.today_menu|linebreaksbr }}</p>
+                <p class="status-row">住所：{{ shop.address }}</p>
+                <p class="status-row">最終更新：{{ shop.updated_at }}</p>
+            </div>
+        {% empty %}
+            <p>現在、登録されている弁当屋はありません。</p>
+        {% endfor %}
+    </div>
 </body>
+
 </html>

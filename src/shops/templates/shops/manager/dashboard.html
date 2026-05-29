@@ -1,73 +1,80 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
     <title>店舗ダッシュボード - いま弁</title>
+    <link rel="stylesheet" href="{% static 'shops/css/style.css' %}">
 </head>
 <body>
-    <h1>店舗ダッシュボード</h1>
-
-    <p>ログイン中：{{ request.user.username }}</p>
-
-    <div style="border: 1px solid #ccc; padding: 16px; margin-bottom: 16px;">
-        <h2>{{ shop.name }}</h2>
-
-        <p>現在の営業状況：{{ shop.get_business_status_display }}</p>
-        <p>現在の在庫状況：{{ shop.get_stock_status_display }}</p>
-        <p>現在の今日のメニュー：{{ shop.today_menu|linebreaksbr }}</p>
-        <p>住所：{{ shop.address }}</p>
-        <p>最終更新：{{ shop.updated_at }}</p>
-    </div>
-
-    <h2>店舗情報を更新</h2>
-
-    <form method="post">
-        {% csrf_token %}
-
-        <div style="margin-bottom: 12px;">
-            <label>営業状況</label><br>
-            {{ form.business_status }}
+    <div class="page">
+        <div class="header">
+            <div class="header-title">店舗ダッシュボード</div>
+            <p class="header-text">ログイン中：{{ request.user.username }}</p>
         </div>
 
-        <div style="margin-bottom: 12px;">
-            <label>在庫状況</label><br>
-            {{ form.stock_status }}
+        <div class="shop-card">
+            <h2>{{ shop.name }}</h2>
+
+            <p class="status-row">現在の営業状況：{{ shop.get_business_status_display }}</p>
+            <p class="status-row">現在の在庫状況：{{ shop.get_stock_status_display }}</p>
+            <p class="status-row">現在の今日のメニュー：{{ shop.today_menu|linebreaksbr }}</p>
+            <p class="status-row">住所：{{ shop.address }}</p>
+            <p class="status-row">最終更新：{{ shop.updated_at }}</p>
         </div>
 
-        <div style="margin-bottom: 12px;">
-            <label>今日のメニュー</label><br>
-            {{ form.today_menu }}
-        </div>
+        <div class="form-section">
+            <h2>店舗情報を更新</h2>
+
+            <form method="post">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label>営業状況</label>
+                    {{ form.business_status }}
+                </div>
+
+                <div class="form-group">
+                    <label>在庫状況</label>
+                    {{ form.stock_status }}
+                </div>
+
+                <div class="form-group">
+                    <label>今日のメニュー</label>
+                    {{ form.today_menu }}
+                </div>
+
                 <hr>
 
-        <h3>値下げ告知</h3>
+                <h3>値下げ告知</h3>
 
-        <div style="margin-bottom: 12px;">
-            <label>値下げ中</label><br>
-            {{ form.is_discount_active }}
+                <div class="form-group">
+                    <label>値下げ中</label>
+                    {{ form.is_discount_active }}
+                </div>
+
+                <div class="form-group">
+                    <label>値下げ内容</label>
+                    {{ form.discount_text }}
+                </div>
+
+                <div class="form-group">
+                    <label>残り個数</label>
+                    {{ form.discount_quantity }}
+                </div>
+
+                <div class="form-group">
+                    <label>終了予定時刻</label>
+                    {{ form.discount_end_time }}
+                </div>
+
+                <button type="submit">更新する</button>
+            </form>
         </div>
 
-        <div style="margin-bottom: 12px;">
-            <label>値下げ内容</label><br>
-            {{ form.discount_text }}
-        </div>
-
-        <div style="margin-bottom: 12px;">
-            <label>残り個数</label><br>
-            {{ form.discount_quantity }}
-        </div>
-
-        <div style="margin-bottom: 12px;">
-            <label>終了予定時刻</label><br>
-            {{ form.discount_end_time }}
-        </div>
-        <button type="submit">
-            更新する
-        </button>
-    </form>
-
-    <p style="margin-top: 24px;">
-        <a href="{% url 'shops:shop_list' %}">ユーザー側一覧を見る</a>
-    </p>
+        <p>
+            <a class="link" href="{% url 'shops:shop_list' %}">ユーザー側一覧を見る</a>
+        </p>
+    </div>
 </body>
 </html>

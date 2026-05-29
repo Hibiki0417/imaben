@@ -1,54 +1,65 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
     <title>{{ shop.name }} - いま弁</title>
+    <link rel="stylesheet" href="{% static 'shops/css/style.css' %}">
 </head>
 <body>
-    <p>
-        <a href="{% url 'shops:shop_list' %}">← 弁当屋一覧へ戻る</a>
-    </p>
+    <div class="page">
+        <p>
+            <a href="{% url 'shops:shop_list' %}">← 弁当屋一覧へ戻る</a>
+        </p>
 
-    <h1>{{ shop.name }}</h1>
+        <div class="header">
+            <div class="header-title">{{ shop.name }}</div>
+        </div>
 
-    <div style="border: 1px solid #ccc; padding: 16px; margin-bottom: 16px;">
-        <p>営業状況：{{ shop.get_business_status_display }}</p>
-        <p>在庫状況：{{ shop.get_stock_status_display }}</p>
-        <p>住所：{{ shop.address }}</p>
-        <p>最終更新：{{ shop.updated_at }}</p>
-    </div>
-    {% if shop.is_discount_display_active %}
-        <div style="border: 2px solid red; padding: 16px; margin-bottom: 16px;">
-            <h2>🔥 値下げ中</h2>
+        <div class="shop-card">
+            <p class="status-row">営業状況：{{ shop.get_business_status_display }}</p>
+            <p class="status-row">在庫状況：{{ shop.get_stock_status_display }}</p>
+            <p class="status-row">住所：{{ shop.address }}</p>
+            <p class="status-row">最終更新：{{ shop.updated_at }}</p>
+        </div>
 
-            {% if shop.discount_text %}
-                <p>値下げ内容：{{ shop.discount_text }}</p>
-            {% endif %}
+        {% if shop.is_discount_display_active %}
+            <div class="discount-box">
+                <div class="discount-title">🔥 値下げ中</div>
 
-            {% if shop.discount_quantity %}
-                <p>残り：{{ shop.discount_quantity }}個</p>
-            {% endif %}
+                {% if shop.discount_text %}
+                    <p>値下げ内容：{{ shop.discount_text }}</p>
+                {% endif %}
 
-            {% if shop.discount_end_time %}
-                <p>終了予定：{{ shop.discount_end_time }}</p>
+                {% if shop.discount_quantity %}
+                    <p>残り：{{ shop.discount_quantity }}個</p>
+                {% endif %}
+
+                {% if shop.discount_end_time %}
+                    <p>終了予定：{{ shop.discount_end_time }}</p>
+                {% endif %}
+            </div>
+        {% endif %}
+
+        <div class="shop-card">
+            <h2>今日のメニュー</h2>
+
+            {% if shop.today_menu %}
+                <p>{{ shop.today_menu|linebreaksbr }}</p>
+            {% else %}
+                <p>今日のメニューはまだ登録されていません。</p>
             {% endif %}
         </div>
-    {% endif %}
 
-    <h2>今日のメニュー</h2>
+        <div class="shop-card">
+            <h2>店舗説明</h2>
 
-    {% if shop.today_menu %}
-        <p>{{ shop.today_menu|linebreaksbr }}</p>
-    {% else %}
-        <p>今日のメニューはまだ登録されていません。</p>
-    {% endif %}
-
-    <h2>店舗説明</h2>
-
-    {% if shop.description %}
-        <p>{{ shop.description|linebreaksbr }}</p>
-    {% else %}
-        <p>店舗説明はまだ登録されていません。</p>
-    {% endif %}
+            {% if shop.description %}
+                <p>{{ shop.description|linebreaksbr }}</p>
+            {% else %}
+                <p>店舗説明はまだ登録されていません。</p>
+            {% endif %}
+        </div>
+    </div>
 </body>
 </html>
