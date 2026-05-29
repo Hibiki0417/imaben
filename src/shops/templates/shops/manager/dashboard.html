@@ -23,7 +23,7 @@
             <p class="status-row">最終更新：{{ shop.updated_at }}</p>
         </div>
 
-        
+
         <div class="form-section">
             <h2>クイック更新</h2>
 
@@ -33,21 +33,21 @@
                 {% csrf_token %}
                 <input type="hidden" name="status_type" value="business_status">
                 <input type="hidden" name="status_value" value="open">
-                <button type="submit">営業中にする</button>
+                <button class="quick-button quick-button-open" type="submit">営業中にする</button>
             </form>
 
             <form method="post" action="{% url 'shops:update_quick_status' %}" style="margin-bottom: 8px;">
                 {% csrf_token %}
                 <input type="hidden" name="status_type" value="business_status">
                 <input type="hidden" name="status_value" value="preparing">
-                <button type="submit">準備中にする</button>
+                <button class="quick-button quick-button-preparing" type="submit">準備中にする</button>
             </form>
 
             <form method="post" action="{% url 'shops:update_quick_status' %}" style="margin-bottom: 8px;">
                 {% csrf_token %}
                 <input type="hidden" name="status_type" value="business_status">
                 <input type="hidden" name="status_value" value="closed">
-                <button type="submit">本日休みにする</button>
+                <button class="quick-button quick-button-closed" type="submit">本日休みにする</button>
             </form>
 
             <hr>
@@ -58,21 +58,21 @@
                 {% csrf_token %}
                 <input type="hidden" name="status_type" value="stock_status">
                 <input type="hidden" name="status_value" value="enough">
-                <button type="submit">十分ありにする</button>
+                <button class="quick-button quick-button-enough" type="submit">十分ありにする</button>
             </form>
 
             <form method="post" action="{% url 'shops:update_quick_status' %}" style="margin-bottom: 8px;">
                 {% csrf_token %}
                 <input type="hidden" name="status_type" value="stock_status">
                 <input type="hidden" name="status_value" value="low">
-                <button type="submit">残り少ないにする</button>
+                <button class="quick-button quick-button-low" type="submit">残り少ないにする</button>
             </form>
 
             <form method="post" action="{% url 'shops:update_quick_status' %}">
                 {% csrf_token %}
                 <input type="hidden" name="status_type" value="stock_status">
                 <input type="hidden" name="status_value" value="sold_out">
-                <button type="submit">売り切れにする</button>
+                <button class="quick-button quick-button-soldout" type="submit">売り切れにする</button>
             </form>
         </div>
 

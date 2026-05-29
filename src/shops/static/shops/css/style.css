@@ -108,3 +108,38 @@ button {
     display: inline-block;
     margin-top: 12px;
 }
+
+.quick-button {
+    width: 100%;
+    border: none;
+    border-radius: 10px;
+    padding: 14px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 8px;
+}
+
+.quick-button-open {
+    background-color: #1f9d55;
+}
+
+.quick-button-preparing {
+    background-color: #f59e0b;
+}
+
+.quick-button-closed {
+    background-color: #6b7280;
+}
+
+.quick-button-enough {
+    background-color: #2563eb;
+}
+
+.quick-button-low {
+    background-color: #f97316;
+}
+
+.quick-button-soldout {
+    background-color: #dc2626;
+}
