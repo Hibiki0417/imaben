@@ -32,14 +32,14 @@
 
         {% if shop.is_discount_display_active %}
             <div class="discount-box">
-                <div class="discount-title">🔥 値下げ中</div>
+                <div class="discount-title">🔥 今だけ情報</div>
 
                 {% if shop.discount_text %}
-                    <p>値下げ内容：{{ shop.discount_text }}</p>
+                    <p>内容：{{ shop.discount_text }}</p>
                 {% endif %}
 
                 {% if shop.discount_quantity %}
-                    <p>残り：{{ shop.discount_quantity }}個</p>
+                    <p>残り個数・対象数：{{ shop.discount_quantity }}個</p>
                 {% endif %}
 
                 {% if shop.discount_end_time %}

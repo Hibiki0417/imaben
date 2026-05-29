@@ -18,9 +18,9 @@ class BentoShopStatusForm(forms.ModelForm):
             'business_status': '営業状況',
             'stock_status': '在庫状況',
             'today_menu': '今日のメニュー',
-            'is_discount_active': '値下げ中',
-            'discount_text': '値下げ内容',
-            'discount_quantity': '残り個数',
+            'is_discount_active': '今だけ情報',
+            'discount_text': '掲載内容',
+            'discount_quantity': '残り個数・対象数',
             'discount_end_time': '終了予定時刻',
         }
         widgets = {
@@ -29,7 +29,7 @@ class BentoShopStatusForm(forms.ModelForm):
                 'placeholder': '例：からあげ弁当、チキン南蛮、沖縄そば弁当'     
             }),
             'discount_text': forms.TextInput(attrs={
-                'placeholder': '例：全品100円引き、30%OFF、2個で500円'
+                'placeholder': '例：全品100円引き、からあげ1個サービス、味噌汁無料'
             }),
             'discount_end_time': forms.TimeInput(attrs={
                 'type': 'time'
