@@ -2,6 +2,7 @@ services:
   - type: web
     name: imaben
     runtime: docker
+    branch: deploy/render
     plan: free
     healthCheckPath: /shops/
     autoDeployTrigger: commit
