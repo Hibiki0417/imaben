@@ -27,4 +27,5 @@ class ShopStatusConsumer(AsyncWebsocketConsumer):
             'business_status_display': event['business_status_display'],
             'stock_status': event['stock_status'],
             'stock_status_display': event['stock_status_display'],
+            'updated_at': event['updated_at'],
         }))

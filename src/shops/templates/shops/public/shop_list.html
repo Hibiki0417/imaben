@@ -52,7 +52,10 @@
                 {% endif %}
                 <p class="status-row">今日のメニュー：{{ shop.today_menu|linebreaksbr }}</p>
                 <p class="status-row">住所：{{ shop.address }}</p>
-                <p class="status-row">最終更新：{{ shop.updated_at }}</p>
+                <p class="status-row">
+                    最終更新：
+                    <span data-updated-at>{{ shop.updated_at|date:"Y年n月j日H:i" }}</span>
+                </p>
             </div>
         {% empty %}
             <p>現在、登録されている弁当屋はありません。</p>
@@ -82,6 +85,7 @@
 
                 const businessBadge = shopCard.querySelector('[data-business-badge]');
                 const stockBadge = shopCard.querySelector('[data-stock-badge]');
+                const updatedAt = shopCard.querySelector('[data-updated-at]');
 
                 if (businessBadge) {
                     businessBadge.textContent = data.business_status_display;
@@ -91,6 +95,10 @@
                 if (stockBadge) {
                     stockBadge.textContent = data.stock_status_display;
                     stockBadge.className = `status-badge badge-${data.stock_status}`;
+                }
+
+                if (updatedAt) {
+                    updatedAt.textContent = data.updated_at;
                 }
             };
 
