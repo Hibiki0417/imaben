@@ -33,24 +33,35 @@
                     </span>
                 </div>
 
-                {% if shop.is_discount_display_active %}
-                    <div class="discount-box">
-                        <div class="discount-title">🔥 今だけ情報</div>
+                <div
+                    class="discount-box"
+                    data-promotion-box
+                    style="{% if not shop.is_discount_display_active %}display: none;{% endif %}"
+                >
+                    <div class="discount-title">🔥 今だけ情報</div>
 
+                    <p data-promotion-text>
                         {% if shop.discount_text %}
-                            <p>値下げ内容：{{ shop.discount_text }}</p>
+                            内容：{{ shop.discount_text }}
                         {% endif %}
+                    </p>
 
+                    <p data-promotion-quantity>
                         {% if shop.discount_quantity %}
-                            <p>残り個数・対象数：{{ shop.discount_quantity }}個</p>
+                            残り個数・対象数：{{ shop.discount_quantity }}
                         {% endif %}
+                    </p>
 
+                    <p data-promotion-end-time>
                         {% if shop.discount_end_time %}
-                            <p>終了予定：{{ shop.discount_end_time }}</p>
+                            終了予定：{{ shop.discount_end_time }}
                         {% endif %}
-                    </div>
-                {% endif %}
-                <p class="status-row">今日のメニュー：{{ shop.today_menu|linebreaksbr }}</p>
+                    </p>
+                </div>
+                <p class="status-row">
+                    今日のメニュー：
+                    <span data-today-menu>{{ shop.today_menu|linebreaksbr }}</span>
+                </p>
                 <p class="status-row">住所：{{ shop.address }}</p>
                 <p class="status-row">
                     最終更新：
@@ -86,6 +97,11 @@
                 const businessBadge = shopCard.querySelector('[data-business-badge]');
                 const stockBadge = shopCard.querySelector('[data-stock-badge]');
                 const updatedAt = shopCard.querySelector('[data-updated-at]');
+                const todayMenu = shopCard.querySelector('[data-today-menu]');
+                const promotionBox = shopCard.querySelector('[data-promotion-box]');
+                const promotionText = shopCard.querySelector('[data-promotion-text]');
+                const promotionQuantity = shopCard.querySelector('[data-promotion-quantity]');
+                const promotionEndTime = shopCard.querySelector('[data-promotion-end-time]');
 
                 if (businessBadge) {
                     businessBadge.textContent = data.business_status_display;
@@ -99,6 +115,36 @@
 
                 if (updatedAt) {
                     updatedAt.textContent = data.updated_at;
+                }
+
+                if (todayMenu) {
+                    todayMenu.innerHTML = (data.today_menu || '').replace(/\n/g, '<br>');
+                }
+
+                if (promotionBox) {
+                    if (data.is_discount_display_active) {
+                        promotionBox.style.display = '';
+
+                        if (promotionText) {
+                            promotionText.textContent = data.discount_text
+                                ? `内容：${data.discount_text}`
+                                : '';
+                        }
+
+                        if (promotionQuantity) {
+                            promotionQuantity.textContent = data.discount_quantity
+                                ? `残り個数・対象数：${data.discount_quantity}`
+                                : '';
+                        }
+
+                        if (promotionEndTime) {
+                            promotionEndTime.textContent = data.discount_end_time
+                                ? `終了予定：${data.discount_end_time}`
+                                : '';
+                        }
+                    } else {
+                        promotionBox.style.display = 'none';
+                    }
                 }
             };
 

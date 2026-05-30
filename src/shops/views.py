@@ -37,7 +37,27 @@ def manager_dashboard(request):
     if request.method == 'POST':
         form = BentoShopStatusForm(request.POST, instance=shop)
         if form.is_valid():
-            form.save()
+            shop = form.save()
+
+            channel_layer = get_channel_layer()
+            async_to_sync(channel_layer.group_send)(
+                'shop_status',
+                {
+                    'type': 'shop_status_update',
+                    'shop_id': shop.id,
+                    'business_status': shop.business_status,
+                    'business_status_display': shop.get_business_status_display(),
+                    'stock_status': shop.stock_status,
+                    'stock_status_display': shop.get_stock_status_display(),
+                    'today_menu': shop.today_menu,
+                    'is_discount_display_active': shop.is_discount_display_active,
+                    'discount_text': shop.discount_text,
+                    'discount_quantity': shop.discount_quantity,
+                    'discount_end_time': shop.discount_end_time.strftime('%H:%M') if shop.discount_end_time else '',
+                    'updated_at': timezone.localtime(shop.updated_at).strftime('%Y年%m月%d日%H:%M'),
+                }
+            )
+
             return redirect('shops:manager_dashboard')
     else:
         form = BentoShopStatusForm(instance=shop)
