@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: imaben
+    runtime: docker
+    plan: free
+    healthCheckPath: /shops/
+    autoDeployTrigger: commit
+    envVars:
+      - key: DJANGO_SECRET_KEY
+        generateValue: true
+      - key: DJANGO_DEBUG
+        value: "False"
+      - key: USE_REDIS_CHANNEL_LAYER
+        value: "False"
