@@ -106,6 +106,11 @@ def update_quick_status(request):
             'business_status_display': shop.get_business_status_display(),
             'stock_status': shop.stock_status,
             'stock_status_display': shop.get_stock_status_display(),
+            'today_menu': shop.today_menu,
+            'is_discount_display_active': shop.is_discount_display_active,
+            'discount_text': shop.discount_text,
+            'discount_quantity': shop.discount_quantity,
+            'discount_end_time': shop.discount_end_time.strftime('%H:%M') if shop.discount_end_time else '',
             'updated_at': timezone.localtime(shop.updated_at).strftime('%Y年%m月%d日%H:%M'),
         }
     )
