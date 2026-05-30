@@ -137,8 +137,13 @@ ASGI_APPLICATION = 'config.asgi.application'
 
 
 
+REDIS_URL = os.getenv("REDIS_URL", "redis://redis:6379/0")
+
 CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels.layers.InMemoryChannelLayer',
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [REDIS_URL],
+        },
     },
 }
