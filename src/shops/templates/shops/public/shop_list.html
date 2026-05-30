@@ -3,86 +3,129 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>いま弁 - 弁当屋一覧</title>
     <link rel="stylesheet" href="{% static 'shops/css/public.css' %}">
 </head>
 
 <body>
-    <div class="page">
-        <div class="header">
+    <main class="page">
+        <header class="header">
             <div class="header-title">いま弁</div>
-            <p class="header-text">今開いている沖縄の弁当屋を確認できます。</p>
-        </div>
+            <p class="header-text">今開いている沖縄の弁当屋と、今日のメニュー・今だけ情報を確認できます。</p>
+        </header>
 
-        <h2>弁当屋一覧</h2>
-
-        {% for shop in shops %}
-            <div class="shop-card" data-shop-id="{{ shop.id }}">
-                <h3 class="shop-name">
-                    <a href="{% url 'shops:shop_detail' shop.pk %}">
-                        {{ shop.name }}
-                    </a>
-                </h3>
-                <div class="badge-row">
-                    <span class="status-badge badge-{{ shop.business_status }}" data-business-badge>
-                        {{ shop.get_business_status_display }}
-                    </span>
-
-                    <span class="status-badge badge-{{ shop.stock_status }}" data-stock-badge>
-                        {{ shop.get_stock_status_display }}
-                    </span>
-                </div>
-
-                <div
-                    class="discount-box"
-                    data-promotion-box
-                    style="{% if not shop.is_discount_display_active %}display: none;{% endif %}"
-                >
-                    <div class="discount-title">🔥 今だけ情報</div>
-
-                    <p data-promotion-text>
-                        {% if shop.discount_text %}
-                            内容：{{ shop.discount_text }}
-                        {% endif %}
-                    </p>
-
-                    <p data-promotion-quantity>
-                        {% if shop.discount_quantity %}
-                            残り個数・対象数：{{ shop.discount_quantity }}
-                        {% endif %}
-                    </p>
-
-                    <p data-promotion-end-time>
-                        {% if shop.discount_end_time %}
-                            終了予定：{{ shop.discount_end_time }}
-                        {% endif %}
-                    </p>
-                </div>
-                <p class="status-row">
-                    今日のメニュー：
-                    <span data-today-menu>{{ shop.today_menu|linebreaksbr }}</span>
-                </p>
-                <p class="status-row">住所：{{ shop.address }}</p>
-                <p class="status-row">
-                    最終更新：
-                    <span data-updated-at>{{ shop.updated_at|date:"Y年n月j日H:i" }}</span>
-                </p>
+        <section class="list-header" aria-label="弁当屋一覧">
+            <div>
+                <h1>今日買える弁当屋</h1>
+                <p>営業状況と在庫状況は店舗側の更新に合わせて反映されます。</p>
             </div>
-        {% empty %}
-            <p>現在、登録されている弁当屋はありません。</p>
-        {% endfor %}
-    </div>
+            <span class="shop-count">{{ shops|length }}件</span>
+        </section>
+
+        <section class="shop-list">
+            {% for shop in shops %}
+                <article
+                    class="shop-card shop-card-{{ shop.business_status }} shop-card-stock-{{ shop.stock_status }}{% if shop.is_discount_display_active %} shop-card-promotion{% endif %}"
+                    data-shop-id="{{ shop.id }}"
+                >
+                    <div class="shop-card-header">
+                        <div>
+                            <h2 class="shop-name">
+                                <a href="{% url 'shops:shop_detail' shop.pk %}">
+                                    {{ shop.name }}
+                                </a>
+                            </h2>
+                            <p class="shop-address">{{ shop.address }}</p>
+                        </div>
+                        <span
+                            class="promotion-label"
+                            data-promotion-label
+                            {% if not shop.is_discount_display_active %}hidden{% endif %}
+                        >
+                            今だけ情報あり
+                        </span>
+                    </div>
+
+                    <div class="badge-row" aria-label="店舗ステータス">
+                        <span class="status-badge badge-{{ shop.business_status }}" data-business-badge>
+                            {{ shop.get_business_status_display }}
+                        </span>
+
+                        <span class="status-badge badge-{{ shop.stock_status }}" data-stock-badge>
+                            {{ shop.get_stock_status_display }}
+                        </span>
+                    </div>
+
+                    <div class="menu-box">
+                        <div class="section-label">今日のメニュー</div>
+                        <p class="menu-text" data-today-menu>
+                            {% if shop.today_menu %}
+                                {{ shop.today_menu|linebreaksbr }}
+                            {% else %}
+                                まだ登録されていません。
+                            {% endif %}
+                        </p>
+                    </div>
+
+                    <div
+                        class="discount-box"
+                        data-promotion-box
+                        style="{% if not shop.is_discount_display_active %}display: none;{% endif %}"
+                    >
+                        <div class="discount-title">今だけ情報</div>
+
+                        <p data-promotion-text>
+                            {% if shop.discount_text %}
+                                内容：{{ shop.discount_text }}
+                            {% endif %}
+                        </p>
+
+                        <p data-promotion-quantity>
+                            {% if shop.discount_quantity %}
+                                残り個数・対象数：{{ shop.discount_quantity }}
+                            {% endif %}
+                        </p>
+
+                        <p data-promotion-end-time>
+                            {% if shop.discount_end_time %}
+                                終了予定：{{ shop.discount_end_time }}
+                            {% endif %}
+                        </p>
+                    </div>
+
+                    <div class="shop-card-footer">
+                        <span class="updated-text">
+                            最終更新：<span data-updated-at>{{ shop.updated_at|date:"Y年n月j日H:i" }}</span>
+                        </span>
+                        <a class="detail-link" href="{% url 'shops:shop_detail' shop.pk %}">詳細を見る</a>
+                    </div>
+                </article>
+            {% empty %}
+                <div class="empty-state">
+                    <h2>登録されている弁当屋はありません</h2>
+                    <p>店舗が登録されると、ここに営業状況が表示されます。</p>
+                </div>
+            {% endfor %}
+        </section>
+    </main>
+
     <script>
+        function updateShopCardClass(shopCard, data) {
+            if (!('business_status' in data) || !('stock_status' in data)) {
+                return;
+            }
+
+            const promotionClass = data.is_discount_display_active ? ' shop-card-promotion' : '';
+            shopCard.className = `shop-card shop-card-${data.business_status} shop-card-stock-${data.stock_status}${promotionClass}`;
+        }
+
         function connectShopStatusSocket() {
             const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
             const socket = new WebSocket(
                 `${protocol}://${window.location.host}/ws/shops/`
             );
 
-            socket.onopen = function () {
-            };
-
-            
             socket.onmessage = function (event) {
                 const data = JSON.parse(event.data);
 
@@ -94,10 +137,13 @@
                     return;
                 }
 
+                updateShopCardClass(shopCard, data);
+
                 const businessBadge = shopCard.querySelector('[data-business-badge]');
                 const stockBadge = shopCard.querySelector('[data-stock-badge]');
                 const updatedAt = shopCard.querySelector('[data-updated-at]');
                 const todayMenu = shopCard.querySelector('[data-today-menu]');
+                const promotionLabel = shopCard.querySelector('[data-promotion-label]');
                 const promotionBox = shopCard.querySelector('[data-promotion-box]');
                 const promotionText = shopCard.querySelector('[data-promotion-text]');
                 const promotionQuantity = shopCard.querySelector('[data-promotion-quantity]');
@@ -117,8 +163,14 @@
                     updatedAt.textContent = data.updated_at;
                 }
 
-               if (todayMenu && 'today_menu' in data) {
-                    todayMenu.innerHTML = (data.today_menu || '').replace(/\n/g, '<br>');
+                if (todayMenu && 'today_menu' in data) {
+                    todayMenu.innerHTML = data.today_menu
+                        ? data.today_menu.replace(/\n/g, '<br>')
+                        : 'まだ登録されていません。';
+                }
+
+                if (promotionLabel && 'is_discount_display_active' in data) {
+                    promotionLabel.hidden = !data.is_discount_display_active;
                 }
 
                 if (promotionBox) {
