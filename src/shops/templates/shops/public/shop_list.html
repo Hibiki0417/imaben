@@ -117,7 +117,7 @@
                     updatedAt.textContent = data.updated_at;
                 }
 
-                if (todayMenu) {
+               if (todayMenu && 'today_menu' in data) {
                     todayMenu.innerHTML = (data.today_menu || '').replace(/\n/g, '<br>');
                 }
 
